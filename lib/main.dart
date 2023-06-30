@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/loading_screen.dart';
 import 'package:weather_app/location_screen.dart';
 import 'city_screen.dart';
 
@@ -14,9 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: "/",
       routes: {
-        "/":(context) => LocationScreen(),
+        "/city_screen":(context) => CityScreen(),
       },
       title: 'Material App Bar',
       theme: ThemeData(
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(title: Text("Material App Bar")),
-        body: LocationScreen(),
+        body: LoadingScreen(),
       ),
     );
   }
