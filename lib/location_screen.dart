@@ -17,11 +17,11 @@ class _LocationScreenState extends State<LocationScreen> {
   WeatherModel weather = WeatherModel();
   var temperature;
   String? weatherIcon;
+  String? weatherMessage;
   var cityName;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     updateUI(widget.locationWeather);
   }
@@ -33,6 +33,7 @@ class _LocationScreenState extends State<LocationScreen> {
     var condition = weatherData['weather'][0]['id'];
     cityName = weatherData['name'];
     weatherIcon = weather.getWeatherIcon(condition);
+    weatherMessage = weather.getMessage(temperature);
   }
 
   @override
@@ -57,7 +58,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {Navigator.pop(context);},
                     child: Icon(
                       Icons.near_me,
                       size: 50.0,
@@ -92,7 +93,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  "$weatherMessage in $cityName",
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
