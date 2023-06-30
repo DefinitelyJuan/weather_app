@@ -38,13 +38,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         child:SpinKitDoubleBounce(
          color: Colors.blue.shade900,
         ),
-        // child: ElevatedButton(
-        //   onPressed: () async{
-        //     await getData();
-        //     Navigator.push(context, MaterialPageRoute(builder: (context) => LocationScreen(locationWeather: locationWeather)));
-        //   },
-        //   child: Text("Get Location"),
-        // ),
       ),
     );
   }
