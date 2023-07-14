@@ -18,5 +18,19 @@ class NetworkHelp {
       print(response.statusCode);
       print('error');
     }
+
+  }
+  Future getWeatherSearched() async {
+    final response = await http.get(Uri.parse(url));
+    var firstStuff = jsonDecode(response.body);
+
+    double latitude = firstStuff['coord']['lat'];
+    double longitude = firstStuff['coord']['lon'];
+
+    var newUrl = "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=ef7cc8cebcbb0e59326556672f3bdd2c";
+
+    final result = await http.get(Uri.parse(newUrl));
+
+    return result.body;
   }
 }

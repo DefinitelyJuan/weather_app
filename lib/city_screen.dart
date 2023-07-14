@@ -1,60 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:weather_app/constants.dart';
+import 'networking.dart';
+import 'constants.dart';
 
-class CityScreen extends StatefulWidget {
-  const CityScreen({Key? key}) : super(key: key);
+void main() => runApp(CityScreen());
 
-  @override
-  State<CityScreen> createState() => _CityScreenState();
-}
+class CityScreen extends StatelessWidget {
+  CityScreen({super.key});
 
-class _CityScreenState extends State<CityScreen> {
+  String city = "";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/city_background.jpg',),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                  Colors.white.withOpacity(0.8),BlendMode.dstATop),
-            )
+    return MaterialApp(
+      title: 'Material App',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Look for your city'),
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
         ),
-        constraints: BoxConstraints.expand(),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                      onPressed: (){},
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 40.0,
-                      )
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  TextButton(
-                    child:
-                    Text(
-                      "It's 🍦 time in San Francisco!",
-                    style: kMessageTextStyle,
-                    textAlign: TextAlign.right,
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('images/city_background.jpg'), fit: BoxFit.cover)),
+          constraints: BoxConstraints.expand(),
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                    onChanged: (text) {
+                      city = text;
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter your city name',
+                    )),
+                GestureDetector(
+                  onTap: () async {
+                    var oNetWorking = NetworkHelp("https://api.openweathermap.org/data/2.5/weather?q=$city&appid=ef7cc8cebcbb0e59326556672f3bdd2c");
+                    var weatherData = await oNetWorking.getWeatherSearched();
+                    Navigator.pop(context, weatherData);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.blue, borderRadius: BorderRadius.circular(10)),
+                      width: 200,
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Search",
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        ],
+                      ),
                     ),
-                    onPressed: (){},
-
-                  )
-                ],
-              )
-            ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
